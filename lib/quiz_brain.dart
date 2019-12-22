@@ -31,9 +31,9 @@ class QuizBrain {
         true)
   ];
 
-  goToNextQuestion() {
+  void goToNextQuestion() {
     if (_quizNumber < _questions.length - 1) {
-      return _quizNumber++;
+      _quizNumber++;
     }
   }
 
@@ -43,5 +43,18 @@ class QuizBrain {
 
   bool getQuizAnswer() {
     return _questions[_quizNumber].answer;
+  }
+
+  bool isFinished() {
+    if (_quizNumber == _questions.length - 1) {
+      print('This is the last question. Question number is $_quizNumber');
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void resetQuizNumber() {
+    _quizNumber = 0;
   }
 }

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:quizzler/quiz_brain.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+
+QuizBrain quizBrain = QuizBrain();
 
 void main() => runApp(Quizzler());
 
@@ -28,23 +31,31 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> {
   List<Icon> scoreKeeper = [];
 
-  QuizBrain quizBrain = QuizBrain();
-
   void checkAnswer(bool userPickedAnswer) {
     bool answer = quizBrain.getQuizAnswer();
-    if (userPickedAnswer == answer) {
-      scoreKeeper.add(Icon(
-        Icons.check,
-        color: Colors.green,
-      ));
-    } else {
-      scoreKeeper.add(Icon(
-        Icons.close,
-        color: Colors.red,
-      ));
-    }
     setState(() {
-      quizBrain.goToNextQuestion();
+      if (quizBrain.isFinished() == true) {
+        Alert(
+                context: context,
+                title: 'Game Over',
+                desc: 'Click to restart game')
+            .show();
+        quizBrain.resetQuizNumber();
+        scoreKeeper = [];
+      } else {
+        if (userPickedAnswer == answer) {
+          scoreKeeper.add(Icon(
+            Icons.check,
+            color: Colors.green,
+          ));
+        } else {
+          scoreKeeper.add(Icon(
+            Icons.close,
+            color: Colors.red,
+          ));
+        }
+        quizBrain.goToNextQuestion();
+      }
     });
   }
 
